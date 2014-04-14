@@ -62,8 +62,9 @@ class Kinematics(object):
 
         if q_guess is None:
             q_guess = np.zeros(6)
-        closest_sols = self.inverse_all(x_mat, q_guess=q_guess, 
-                                        q_min=6*[-2.*np.pi], q_max=6*[2.*np.pi])
+        closest_sols = self.inverse_all(x_mat, q_guess=q_guess, q_min=q_min, q_max=q_max)
+        if len(closest_sols) == 0:
+            return None
         best_sol_ind = np.argmin(np.sum((weights*(closest_sols - np.array(q_guess)))**2,1))
         best_sol = closest_sols[best_sol_ind]
         if False:
