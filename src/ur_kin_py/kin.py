@@ -17,20 +17,20 @@ class Kinematics(object):
             self._forward = ur10_forward
             self._inverse = ur10_inverse
         else:
-            rospy.logerror('Model %s unknown (use "ur5" or "ur10")')
+            print 'Model %s unknown (use "ur5" or "ur10")'
         # self.kdl_kin = create_kdl_kin('/base_link', '/ee_link', robot_urdf)
 
     def forward(self, q):
         q_arr = np.array(q)*1.0
         if len(q_arr) != 6:
-            rospy.logerror('q should be array-like of length 6')
+            print 'q should be array-like of length 6'
             return None
         return np.mat(self._forward(q_arr))
 
     def inverse_all(self, x, q_guess=None, q_min=6*[-2.*np.pi], q_max=6*[2.*np.pi]):
         x_mat = np.array(x)
         if x_mat.shape != (4,4):
-            rospy.logerror('q should be array-like of length 6')
+            print 'q should be array-like of length 6'
             return None
 
         if q_guess is None:
@@ -57,7 +57,7 @@ class Kinematics(object):
     def inverse(self, x, q_guess=None, q_min=6*[-2.*np.pi], q_max=6*[2.*np.pi], weights=6*[1.]):
         x_mat = np.array(x)
         if x_mat.shape != (4,4):
-            rospy.logerror('q should be array-like of length 6')
+            print 'q should be array-like of length 6'
             return None
 
         if q_guess is None:
